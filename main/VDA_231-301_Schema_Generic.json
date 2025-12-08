@@ -1,45 +1,64 @@
 {
-  "$id": "https://vda231-301.github.io/schemas/generic/VDA_231-301_generic_v1.0.0.schema.json",
+  "$id": "https://vda231-301.github.io/schemas/generic/VDA_231-301_generic_v1.1.0.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "VDA 231-301 TestingProject JSON schema",
   "type": "object",
   "additionalProperties": false,
-  "description": "This is the Generic Schema which validates the structure of the file",
+  "description": "This is the Generic Schema which validates the structure of the file according to VDA231-301",
   "properties": {
     "_id": {
-      "$ref": "#/$defs/Generic.Identifier"
+      "$ref": "#/$defs/Generic.SchemaTransportID"
     },
     "_type": {
       "const": "TestingProject",
       "type": "string"
     },
     "_schemaVersion": {
-      "const": "1.0.0",
+      "const": "1.1.0",
       "description": "The generic schema version on which the structure of the testing project is based on."
     },
-    "Title": {
-      "$ref": "#/$defs/Generic.RestrictedString"
+    "TestReportInformation": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Bundled informational data for the test report.",
+      "properties": {
+        "Title": {
+          "$ref": "#/$defs/Generic.RestrictedString"
+        },
+        "ClientOrderNumber": {
+          "$ref": "#/$defs/Generic.RestrictedString"
+        },
+        "LaboratoryOrderNumber": {
+          "$ref": "#/$defs/Generic.RestrictedString"
+        },
+        "OrderDate": {
+          "$ref": "#/$defs/Generic.Date"
+        },
+        "OrderReference": {
+          "$ref": "#/$defs/Generic.RestrictedString"
+        },
+        "ReportDate": {
+          "$ref": "#/$defs/Generic.Date"
+        },
+        "Signatory": {
+          "$ref": "#/$defs/Generic.ProperNameString"
+        }
+      },
+      "required": [
+        "Title",
+        "ClientOrderNumber",
+        "LaboratoryOrderNumber",
+        "OrderReference",
+        "OrderDate",
+        "ReportDate",
+        "Signatory"
+      ]
     },
     "Client": {
       "$ref": "#/$defs/Generic.Location"
     },
-    "ClientOrderNumber": {
-      "$ref": "#/$defs/Generic.RestrictedString"
-    },
     "Contractor": {
       "$ref": "#/$defs/Generic.TestingCenter"
-    },
-    "LaboratoryOrderNumber": {
-      "$ref": "#/$defs/Generic.RestrictedString"
-    },
-    "OrderDate": {
-      "$ref": "#/$defs/Generic.Date"
-    },
-    "OrderReference": {
-      "$ref": "#/$defs/Generic.RestrictedString"
-    },
-    "ReportDate": {
-      "$ref": "#/$defs/Generic.Date"
     },
     "Signatory": {
       "$ref": "#/$defs/Generic.ProperNameString"
@@ -72,11 +91,7 @@
     "_id",
     "_type",
     "_schemaVersion",
-    "ClientOrderNumber",
-    "LaboratoryOrderNumber",
-    "OrderReference",
-    "OrderDate",
-    "ReportDate",
+    "TestReportInformation",
     "Signatory",
     "Client",
     "Contractor",
@@ -226,7 +241,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.SchemaTransportID"
         },
         "_type": {
           "const": "Certification",
@@ -254,7 +269,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.SchemaTransportID"
         },
         "_type": {
           "const": "Location",
@@ -306,7 +321,7 @@
         {
           "properties": {
             "_id": {
-              "$ref": "#/$defs/Generic.Identifier"
+              "$ref": "#/$defs/Generic.SchemaTransportID"
             },
             "_type": {
               "const": "ConsolidatedCharacteristicValue",
@@ -323,7 +338,7 @@
             },
             "SingleResultIDs":{
               "items": {
-                "$ref": "#/$defs/Generic.Identifier"
+                "$ref": "#/$defs/Generic.SchemaTransportID"
               },
               "type": "array"
             },
@@ -344,7 +359,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.SchemaTransportID"
         },
         "_type": {
           "const": "ContactDetailsSimplifiedEnglish",
@@ -400,7 +415,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.SchemaTransportID"
         },
         "_type": {
           "const": "ContactDetails",
@@ -525,7 +540,12 @@
           "$ref": "#/$defs/Generic.RestrictedString"
         },
         "Type": {
-          "$ref": "#/$defs/Generic.RestrictedString"
+          "anyOf": [
+            { "$ref": "#/$defs/Generic.RestrictedString" },
+            { "enum": ["VAT-ID", "DUNS-NR"] }
+          ],
+          "description": "Type of identifier. Note: anyOf is redundant; used only to visualize VAT and DUNS",
+          "examples": ["VAT-ID", "DUNS-NR"]
         }
       },
       "required": [
@@ -537,7 +557,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.SchemaTransportID"
         },
         "_type": {
           "const": "TestExecution",
@@ -595,7 +615,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.SchemaTransportID"
         },
         "_type": {
           "const": "Extraction",
@@ -641,8 +661,8 @@
       },
       "type": "object"
     },
-    "Generic.Identifier": {
-      "description": "Universally Unique Identifier (UUID) as a 128-bit value in hexadecimal coding, noted in five groups, standardised by RFC 4122[1].",
+    "Generic.SchemaTransportID": {
+      "description": "Universally Unique Identifier (UUID) as a 128-bit value in hexadecimal coding, noted in five groups, standardised by RFC 4122[1]. Used to identify every object in the JSON Structure.",
       "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
       "type": "string"
     },
@@ -708,7 +728,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.SchemaTransportID"
         },
         "_type": {
           "const": "InformationSet",
@@ -782,7 +802,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.SchemaTransportID"
         },
         "_type": {
           "const": "MeasurementSystem",
@@ -825,7 +845,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.SchemaTransportID"
         },
         "_type": {
           "const": "Calibration",
@@ -852,7 +872,7 @@
       "description": "A schema representing a single step in a process, including its index and associated specification.",
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.SchemaTransportID"
         },
         "_type": {
           "const": "ProcessStep",
@@ -993,7 +1013,7 @@
         {
           "properties": {
             "_id": {
-              "$ref": "#/$defs/Generic.Identifier"
+              "$ref": "#/$defs/Generic.SchemaTransportID"
             },
             "_type": {
               "const": "SingleResultPoint",
@@ -1014,7 +1034,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.SchemaTransportID"
         },
         "_type": {
           "const": "Specimen",
@@ -1030,7 +1050,7 @@
           "$ref": "#/$defs/Generic.RestrictedText"
         },
         "ComponentInstanceID": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.SchemaTransportID"
         },
         "Attachment": {
           "$ref": "#/$defs/Generic.Attachment"
@@ -1061,7 +1081,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.SchemaTransportID"
         },
         "_type": {
           "const": "TestingCenter",
@@ -1078,9 +1098,6 @@
             "$ref": "#/$defs/Generic.Certification"
           },
           "type": "array"
-        },
-        "VatId": {
-          "$ref": "#/$defs/Generic.RestrictedString"
         }
       },
       "required": [
@@ -1096,7 +1113,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.SchemaTransportID"
         },
         "_type": {
           "const": "Person",
@@ -1134,7 +1151,7 @@
     "Generic.ComponentMaster": {
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.SchemaTransportID"
         },
         "_type": {
           "const": "ComponentMaster",
@@ -1222,7 +1239,7 @@
     "Generic.ComponentInstance": {
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.SchemaTransportID"
         },
         "_type": {
           "const": "ComponentInstance",
@@ -1273,7 +1290,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.SchemaTransportID"
         },
         "_type": {
           "const": "TestSeries",
@@ -1286,7 +1303,7 @@
           "$ref": "#/$defs/Generic.RestrictedString"
         },
         "ComponentMasterID": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.SchemaTransportID"
         },
         "AdditionalInformation": {
           "$ref": "#/$defs/Generic.InformationSet"
@@ -1301,7 +1318,7 @@
         "PredecessorId": {
           "oneOf": [
             {
-              "$ref": "#/$defs/Generic.Identifier"
+              "$ref": "#/$defs/Generic.SchemaTransportID"
             },
             {
               "type": "null"
@@ -1311,7 +1328,7 @@
         "SuccessorId": {
           "oneOf": [
             {
-              "$ref": "#/$defs/Generic.Identifier"
+              "$ref": "#/$defs/Generic.SchemaTransportID"
             },
             {
               "type": "null"
