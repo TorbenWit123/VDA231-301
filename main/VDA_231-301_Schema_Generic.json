@@ -7,7 +7,7 @@
   "description": "This is the Generic Schema which validates the structure of the file",
   "properties": {
     "_id": {
-      "$ref": "#/$defs/Generic.Identifier"
+      "$ref": "#/$defs/Generic.TransportIdentfier"
     },
     "_type": {
       "const": "TestingProject",
@@ -226,7 +226,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.TransportIdentfier"
         },
         "_type": {
           "const": "Certification",
@@ -254,7 +254,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.TransportIdentfier"
         },
         "_type": {
           "const": "Location",
@@ -306,7 +306,7 @@
         {
           "properties": {
             "_id": {
-              "$ref": "#/$defs/Generic.Identifier"
+              "$ref": "#/$defs/Generic.TransportIdentfier"
             },
             "_type": {
               "const": "ConsolidatedCharacteristicValue",
@@ -321,9 +321,9 @@
             "CriterionType": {
               "$ref": "#/$defs/Generic.RestrictedString"
             },
-            "SingleResultIDs":{
+            "SingleResultIDs": {
               "items": {
-                "$ref": "#/$defs/Generic.Identifier"
+                "$ref": "#/$defs/Generic.TransportIdentfier"
               },
               "type": "array"
             },
@@ -344,7 +344,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.TransportIdentfier"
         },
         "_type": {
           "const": "ContactDetailsSimplifiedEnglish",
@@ -400,7 +400,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.TransportIdentfier"
         },
         "_type": {
           "const": "ContactDetails",
@@ -537,7 +537,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.TransportIdentfier"
         },
         "_type": {
           "const": "TestExecution",
@@ -595,7 +595,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.TransportIdentfier"
         },
         "_type": {
           "const": "Extraction",
@@ -641,7 +641,7 @@
       },
       "type": "object"
     },
-    "Generic.Identifier": {
+    "Generic.TransportIdentfier": {
       "description": "Universally Unique Identifier (UUID) as a 128-bit value in hexadecimal coding, noted in five groups, standardised by RFC 4122[1].",
       "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
       "type": "string"
@@ -708,7 +708,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.TransportIdentfier"
         },
         "_type": {
           "const": "InformationSet",
@@ -782,7 +782,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.TransportIdentfier"
         },
         "_type": {
           "const": "MeasurementSystem",
@@ -825,7 +825,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.TransportIdentfier"
         },
         "_type": {
           "const": "Calibration",
@@ -852,7 +852,7 @@
       "description": "A schema representing a single step in a process, including its index and associated specification.",
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.TransportIdentfier"
         },
         "_type": {
           "const": "ProcessStep",
@@ -993,7 +993,7 @@
         {
           "properties": {
             "_id": {
-              "$ref": "#/$defs/Generic.Identifier"
+              "$ref": "#/$defs/Generic.TransportIdentfier"
             },
             "_type": {
               "const": "SingleResultPoint",
@@ -1014,7 +1014,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.TransportIdentfier"
         },
         "_type": {
           "const": "Specimen",
@@ -1030,7 +1030,7 @@
           "$ref": "#/$defs/Generic.RestrictedText"
         },
         "ComponentInstanceID": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.TransportIdentfier"
         },
         "Attachment": {
           "$ref": "#/$defs/Generic.Attachment"
@@ -1061,7 +1061,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.TransportIdentfier"
         },
         "_type": {
           "const": "TestingCenter",
@@ -1096,7 +1096,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.TransportIdentfier"
         },
         "_type": {
           "const": "Person",
@@ -1134,7 +1134,7 @@
     "Generic.ComponentMaster": {
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.TransportIdentfier"
         },
         "_type": {
           "const": "ComponentMaster",
@@ -1222,7 +1222,7 @@
     "Generic.ComponentInstance": {
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.TransportIdentfier"
         },
         "_type": {
           "const": "ComponentInstance",
@@ -1273,7 +1273,7 @@
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.TransportIdentfier"
         },
         "_type": {
           "const": "TestSeries",
@@ -1286,7 +1286,7 @@
           "$ref": "#/$defs/Generic.RestrictedString"
         },
         "ComponentMasterID": {
-          "$ref": "#/$defs/Generic.Identifier"
+          "$ref": "#/$defs/Generic.TransportIdentfier"
         },
         "AdditionalInformation": {
           "$ref": "#/$defs/Generic.InformationSet"
@@ -1301,7 +1301,7 @@
         "PredecessorId": {
           "oneOf": [
             {
-              "$ref": "#/$defs/Generic.Identifier"
+              "$ref": "#/$defs/Generic.TransportIdentfier"
             },
             {
               "type": "null"
@@ -1311,7 +1311,7 @@
         "SuccessorId": {
           "oneOf": [
             {
-              "$ref": "#/$defs/Generic.Identifier"
+              "$ref": "#/$defs/Generic.TransportIdentfier"
             },
             {
               "type": "null"
