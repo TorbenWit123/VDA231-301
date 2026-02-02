@@ -1135,35 +1135,25 @@
     "Generic.GenericIdentifier": {
       "type": "object",
       "additionalProperties": false,
-      "description": "A typed business identifier (Type + Identifier value) for identifiers that are not covered by dedicated fields.",
+      "description": "Typed business identifier.",
       "properties": {
         "Type": {
           "$ref": "#/$defs/Generic.RestrictedString",
-          "description": "Identifier namespace/category, e.g. 'internal product id', 'global material id'."
+          "description": "Identifier type."
         },
         "Identifier": {
           "$ref": "#/$defs/Generic.RestrictedString",
-          "description": "Identifier value within the given Type."
+          "description": "Identifier value."
         }
       },
       "required": [
         "Type",
         "Identifier"
-      ],
-      "examples": [
-        {
-          "Type": "internal product id",
-          "Identifier": "4711"
-        },
-        {
-          "Type": "global material id",
-          "Identifier": "MAT-123456"
-        }
       ]
     },
     "Generic.GenericIdentification": {
       "type": "array",
-      "description": "Zero or more typed business identifiers (0..n).",
+      "description": "Additional identifiers (0..n).",
       "items": {
         "$ref": "#/$defs/Generic.GenericIdentifier"
       },
@@ -1173,53 +1163,55 @@
     "Generic.ProductInformation": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Product-related information (name, responsible company, DUNS identification and production address) associated with a component master.",
+      "description": "Product information for the component.",
       "properties": {
         "ProductName": {
           "$ref": "#/$defs/Generic.LongString",
-          "description": "Product name/designation as used in business communication (may differ from part numbers)."
+          "description": "Product name."
         },
         "CompanyLegalName": {
           "$ref": "#/$defs/Generic.LongString",
-          "description": "Legal company name of the manufacturer/supplier responsible for the product."
+          "description": "Legal company name."
         },
-        "DUNSNumber": {
-          "type": "array",
-          "minItems": 1,
-          "items": {
-            "$ref": "#/$defs/Generic.LocationIdentifier"
-          },
-          "description": "D-U-N-S identifier(s) using the LocationIdentifier structure (Type + Identifier). Must contain at least one entry of Type 'DUNS' with a 9-digit Identifier.",
-          "contains": {
-            "type": "object",
-            "properties": {
-              "Type": {
-                "enum": [
-                  "DUNS",
-                  "duns"
+        "LocationIdentification": {
+          "description": "Location identifiers; must include DUNS.",
+          "allOf": [
+            {
+              "$ref": "#/$defs/Generic.LocationIdentification"
+            },
+            {
+              "contains": {
+                "type": "object",
+                "properties": {
+                  "Type": {
+                    "enum": [
+                      "DUNS",
+                      "duns"
+                    ]
+                  },
+                  "Identifier": {
+                    "type": "string",
+                    "pattern": "^[0-9]{9}$"
+                  }
+                },
+                "required": [
+                  "Type",
+                  "Identifier"
                 ]
               },
-              "Identifier": {
-                "type": "string",
-                "pattern": "^[0-9]{9}$"
-              }
-            },
-            "required": [
-              "Type",
-              "Identifier"
-            ]
-          },
-          "minContains": 1
+              "minContains": 1
+            }
+          ]
         },
         "ProductionAddress": {
           "$ref": "#/$defs/Generic.ContactDetails",
-          "description": "Postal production address. Reuses Generic.ContactDetails (already used as Location.Address)."
+          "description": "Production address."
         }
       },
       "required": [
         "ProductName",
         "CompanyLegalName",
-        "DUNSNumber",
+        "LocationIdentification",
         "ProductionAddress"
       ]
     },
@@ -1227,16 +1219,16 @@
     "Generic.ComponentMaster": {
       "type": "object",
       "additionalProperties": true,
-      "description": "Master data for a component/part/material under test, including identifiers, material classification, specifications and associated instances.",
+      "description": "Master data for a component under test.",
       "properties": {
         "_id": {
           "$ref": "#/$defs/Generic.Identifier",
-          "description": "Unique identifier (UUID) of this component master."
+          "description": "UUID."
         },
         "_type": {
           "const": "ComponentMaster",
           "type": "string",
-          "description": "Discriminator of the object type. Must be 'ComponentMaster'."
+          "description": "Object type."
         },
         "Instances": {
           "type": "array",
@@ -1244,39 +1236,39 @@
           "items": {
             "$ref": "#/$defs/Generic.ComponentInstance"
           },
-          "description": "One or more physical/lot instances that belong to this component master and were part of the testing scope."
+          "description": "Component instances."
         },
         "CustomerPartNumber": {
           "$ref": "#/$defs/Generic.RestrictedString",
-          "description": "Part number assigned by the customer/OEM for this component (if available)."
+          "description": "Customer/OEM part number."
         },
         "SupplierPartNumber": {
           "$ref": "#/$defs/Generic.RestrictedString",
-          "description": "Part number assigned by the supplier (Tier-N) for this component (if available)."
+          "description": "Supplier part number."
         },
         "GenericIdentifiers": {
           "$ref": "#/$defs/Generic.GenericIdentification",
-          "description": "Optional additional business identifiers for the component master (0..n). Each entry is a typed identifier (Type + Identifier)."
+          "description": "Additional identifiers."
         },
         "ProductInformation": {
           "$ref": "#/$defs/Generic.ProductInformation",
-          "description": "Optional product information (product name, legal company name, DUNS identification and production address)."
+          "description": "Product information."
         },
         "Color": {
           "$ref": "#/$defs/Generic.RestrictedString",
-          "description": "Color designation/code of the component/material, if applicable."
+          "description": "Color."
         },
         "MaterialGroup": {
           "$ref": "#/$defs/Generic.RestrictedString",
-          "description": "Material group classification according to VDA 231-106."
+          "description": "Material group (VDA 231-106)."
         },
         "MaterialClass": {
           "$ref": "#/$defs/Generic.RestrictedString",
-          "description": "Material class classification according to VDA 231-200."
+          "description": "Material class (VDA 231-200)."
         },
         "MaterialName": {
           "$ref": "#/$defs/Generic.RestrictedString",
-          "description": "Material name/designation (e.g., polymer grade), if applicable."
+          "description": "Material name."
         },
         "MaterialIdentifiers": {
           "type": "array",
@@ -1284,7 +1276,7 @@
             "$ref": "#/$defs/Generic.RestrictedString"
           },
           "uniqueItems": true,
-          "description": "Material identifiers according to VDA 231-300 (0..n)."
+          "description": "Material identifiers (VDA 231-300)."
         },
         "SurfaceIdentifiers": {
           "type": "array",
@@ -1292,37 +1284,37 @@
             "$ref": "#/$defs/Generic.RestrictedString"
           },
           "uniqueItems": true,
-          "description": "Surface identifiers according to VDA 231-300 (0..n)."
+          "description": "Surface identifiers (VDA 231-300)."
         },
         "Specifications": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/Generic.Specification"
           },
-          "description": "Referenced specifications/standards that apply to this component (0..n)."
+          "description": "Specifications."
         },
         "LayerSequence": {
           "$ref": "#/$defs/Generic.InformationSet",
-          "description": "Layer sequence information (e.g., coating stack) represented as an InformationSet."
+          "description": "Layer sequence."
         },
         "Attachments": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/Generic.Attachment"
           },
-          "description": "Attachments relevant for the component master (e.g., drawings, BOM extracts, photos) (0..n)."
+          "description": "Attachments."
         },
         "DeviationSpecificationText": {
           "$ref": "#/$defs/Generic.RestrictedText",
-          "description": "Human-readable description of allowed deviations from the referenced specifications."
+          "description": "Allowed deviations (text)."
         },
         "DeviationSpecificationCodeFile": {
           "$ref": "#/$defs/Generic.Attachment",
-          "description": "Machine-readable deviation specification (as a JSON attachment)."
+          "description": "Allowed deviations (file)."
         },
         "Comment": {
           "$ref": "#/$defs/Generic.RestrictedText",
-          "description": "Free-text comment for additional information about the component master."
+          "description": "Comment."
         }
       },
       "required": [
