@@ -1131,7 +1131,6 @@
       ],
       "type": "object"
     },
-
     "Generic.GenericIdentifier": {
       "type": "object",
       "additionalProperties": false,
@@ -1139,11 +1138,11 @@
       "properties": {
         "Type": {
           "$ref": "#/$defs/Generic.RestrictedString",
-          "description": "Identifier type."
+          "description": "Identifier namespace, e.g. 'internal product id', 'global material id'."
         },
         "Identifier": {
           "$ref": "#/$defs/Generic.RestrictedString",
-          "description": "Identifier value."
+          "description": "Identifier value within the given Type."
         }
       },
       "required": [
@@ -1167,14 +1166,14 @@
       "properties": {
         "ProductName": {
           "$ref": "#/$defs/Generic.LongString",
-          "description": "Product name."
+          "description": "Commercial product name or designation."
         },
         "CompanyLegalName": {
           "$ref": "#/$defs/Generic.LongString",
-          "description": "Legal company name."
+          "description": "Legal name of the responsible company."
         },
         "LocationIdentification": {
-          "description": "Location identifiers; must include DUNS.",
+          "description": "Location identifiers (must include DUNS).",
           "allOf": [
             {
               "$ref": "#/$defs/Generic.LocationIdentification"
@@ -1205,7 +1204,7 @@
         },
         "ProductionAddress": {
           "$ref": "#/$defs/Generic.ContactDetails",
-          "description": "Production address."
+          "description": "Postal address of the production site."
         }
       },
       "required": [
@@ -1215,7 +1214,6 @@
         "ProductionAddress"
       ]
     },
-
     "Generic.ComponentMaster": {
       "type": "object",
       "additionalProperties": true,
@@ -1223,12 +1221,12 @@
       "properties": {
         "_id": {
           "$ref": "#/$defs/Generic.Identifier",
-          "description": "UUID."
+          "description": "Unique identifier (UUID) of the component master."
         },
         "_type": {
           "const": "ComponentMaster",
           "type": "string",
-          "description": "Object type."
+          "description": "Object type discriminator; must be 'ComponentMaster'."
         },
         "Instances": {
           "type": "array",
@@ -1236,7 +1234,7 @@
           "items": {
             "$ref": "#/$defs/Generic.ComponentInstance"
           },
-          "description": "Component instances."
+          "description": "Instances belonging to this component master."
         },
         "CustomerPartNumber": {
           "$ref": "#/$defs/Generic.RestrictedString",
@@ -1248,15 +1246,15 @@
         },
         "GenericIdentifiers": {
           "$ref": "#/$defs/Generic.GenericIdentification",
-          "description": "Additional identifiers."
+          "description": "Additional typed identifiers (0..n)."
         },
         "ProductInformation": {
           "$ref": "#/$defs/Generic.ProductInformation",
-          "description": "Product information."
+          "description": "Product-level information (name, company, location identification, address)."
         },
         "Color": {
           "$ref": "#/$defs/Generic.RestrictedString",
-          "description": "Color."
+          "description": "Color name or code, if applicable."
         },
         "MaterialGroup": {
           "$ref": "#/$defs/Generic.RestrictedString",
@@ -1268,7 +1266,7 @@
         },
         "MaterialName": {
           "$ref": "#/$defs/Generic.RestrictedString",
-          "description": "Material name."
+          "description": "Material name or grade."
         },
         "MaterialIdentifiers": {
           "type": "array",
@@ -1291,30 +1289,30 @@
           "items": {
             "$ref": "#/$defs/Generic.Specification"
           },
-          "description": "Specifications."
+          "description": "Referenced specifications and standards."
         },
         "LayerSequence": {
           "$ref": "#/$defs/Generic.InformationSet",
-          "description": "Layer sequence."
+          "description": "Layer sequence information (e.g. coatings)."
         },
         "Attachments": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/Generic.Attachment"
           },
-          "description": "Attachments."
+          "description": "Related files (e.g. drawings, photos)."
         },
         "DeviationSpecificationText": {
           "$ref": "#/$defs/Generic.RestrictedText",
-          "description": "Allowed deviations (text)."
+          "description": "Allowed deviations from specifications (text)."
         },
         "DeviationSpecificationCodeFile": {
           "$ref": "#/$defs/Generic.Attachment",
-          "description": "Allowed deviations (file)."
+          "description": "Allowed deviations from specifications (file)."
         },
         "Comment": {
           "$ref": "#/$defs/Generic.RestrictedText",
-          "description": "Comment."
+          "description": "Free-text comment."
         }
       },
       "required": [
@@ -1323,7 +1321,6 @@
         "Instances"
       ]
     },
-
     "Generic.ComponentInstance": {
       "properties": {
         "_id": {
