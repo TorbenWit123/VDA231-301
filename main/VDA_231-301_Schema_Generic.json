@@ -17,41 +17,57 @@
       "const": "1.0.0",
       "description": "The generic schema version on which the structure of the testing project is based on."
     },
-    "Title": {
-      "$ref": "#/$defs/Generic.RestrictedString"
+    "TestReportInformation": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Bundled informational data for the test report.",
+      "properties": {
+        "Title": {
+          "$ref": "#/$defs/Generic.RestrictedString"
+        },
+        "ClientOrderNumber": {
+          "$ref": "#/$defs/Generic.RestrictedString"
+        },
+        "LaboratoryOrderNumber": {
+          "$ref": "#/$defs/Generic.RestrictedString"
+        },
+        "OrderDate": {
+          "$ref": "#/$defs/Generic.Date"
+        },
+        "OrderReference": {
+          "$ref": "#/$defs/Generic.RestrictedString"
+        },
+        "ReportDate": {
+          "$ref": "#/$defs/Generic.Date"
+        },
+        "Signatory": {
+          "$ref": "#/$defs/Generic.ProperNameString"
+        },
+        "RemarkValidity": {
+          "$ref": "#/$defs/Generic.LongString"
+        },
+        "RemarkDeviation": {
+          "$ref": "#/$defs/Generic.LongString"
+        },
+        "RemarkInterpretations": {
+          "$ref": "#/$defs/Generic.LongString"
+        }
+      },
+      "required": [
+        "Title",
+        "ClientOrderNumber",
+        "LaboratoryOrderNumber",
+        "OrderReference",
+        "OrderDate",
+        "ReportDate",
+        "Signatory"
+      ]
     },
     "Client": {
       "$ref": "#/$defs/Generic.Location"
     },
-    "ClientOrderNumber": {
-      "$ref": "#/$defs/Generic.RestrictedString"
-    },
     "Contractor": {
       "$ref": "#/$defs/Generic.TestingCenter"
-    },
-    "LaboratoryOrderNumber": {
-      "$ref": "#/$defs/Generic.RestrictedString"
-    },
-    "OrderDate": {
-      "$ref": "#/$defs/Generic.Date"
-    },
-    "OrderReference": {
-      "$ref": "#/$defs/Generic.RestrictedString"
-    },
-    "ReportDate": {
-      "$ref": "#/$defs/Generic.Date"
-    },
-    "Signatory": {
-      "$ref": "#/$defs/Generic.ProperNameString"
-    },
-    "RemarkValidity": {
-      "$ref": "#/$defs/Generic.LongString"
-    },
-    "RemarkDeviation": {
-      "$ref": "#/$defs/Generic.LongString"
-    },
-    "RemarkInterpretations": {
-      "$ref": "#/$defs/Generic.LongString"
     },
     "ComponentMasters": {
       "items": {
@@ -72,12 +88,7 @@
     "_id",
     "_type",
     "_schemaVersion",
-    "ClientOrderNumber",
-    "LaboratoryOrderNumber",
-    "OrderReference",
-    "OrderDate",
-    "ReportDate",
-    "Signatory",
+    "TestReportInformation",
     "Client",
     "Contractor",
     "ComponentMasters",
