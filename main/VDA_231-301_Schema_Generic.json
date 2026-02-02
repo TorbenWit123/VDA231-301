@@ -525,7 +525,12 @@
           "$ref": "#/$defs/Generic.RestrictedString"
         },
         "Type": {
-          "$ref": "#/$defs/Generic.RestrictedString"
+          "anyOf": [
+            { "$ref": "#/$defs/Generic.RestrictedString" },
+            { "enum": ["VAT-ID", "DUNS-NR"] }
+          ],
+          "description": "Type of identifier. Note: anyOf is redundant; used only to visualize VAT and DUNS",
+          "examples": ["VAT-ID", "DUNS-NR"]
         }
       },
       "required": [
