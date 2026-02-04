@@ -1140,11 +1140,11 @@
     "Generic.GenericIdentifier": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Typed identifier.",
+      "description": "A typed identifier. 'Type' selects the identifier scheme (e.g., 'VatId', 'ProductId', 'GMID') and 'Identifier' contains the corresponding value for that scheme.",
       "properties": {
         "Type": {
           "$ref": "#/$defs/Generic.RestrictedString",
-          "description": "Identifier namespace, e.g. 'internal product id', 'global material id'."
+          "description": "Identifier namespace, e.g. 'VatId', 'internal product id', 'global material id'."
         },
         "Identifier": {
           "$ref": "#/$defs/Generic.RestrictedString",
@@ -1162,8 +1162,7 @@
       "items": {
         "$ref": "#/$defs/Generic.GenericIdentifier"
       },
-      "minItems": 0,
-      "uniqueItems": true
+      "minItems": 0
     },
     "Generic.ComponentMaster": {
       "properties": {
