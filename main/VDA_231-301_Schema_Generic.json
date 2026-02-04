@@ -19,7 +19,6 @@
     },
     "TestReportInformation": {
       "type": "object",
-      "additionalProperties": false,
       "description": "Bundled informational data for the test report.",
       "properties": {
         "Title": {
@@ -54,7 +53,6 @@
         }
       },
       "required": [
-        "Title",
         "ClientOrderNumber",
         "LaboratoryOrderNumber",
         "OrderReference",
