@@ -520,22 +520,26 @@
     },
     "Generic.LocationIdentifier": {
       "type": "object",
+      "description": "A typed identifier. 'Type' selects the identifier scheme (e.g., 'VatId') and 'Identifier' contains the corresponding value for that scheme.",
       "properties": {
         "Identifier": {
-          "$ref": "#/$defs/Generic.RestrictedString"
+          "$ref": "#/$defs/Generic.RestrictedString",
+          "description": "The identifier value according to the selected 'Type' (e.g., for Type 'VatId' this is the VAT identification number).",
         },
         "Type": {
-          "anyOf": [
-            { "$ref": "#/$defs/Generic.RestrictedString" },
-            { "enum": ["VAT-ID", "DUNS-NR"] }
-          ],
-          "description": "Type of identifier. Note: anyOf is redundant; used only to visualize VAT and DUNS",
-          "examples": ["VAT-ID", "DUNS-NR"]
+          "$ref": "#/$defs/Generic.RestrictedString",
+          "description": "The chosen identifier type/scheme. The 'Identifier' field contains the corresponding value for this type (e.g., 'VatId').",
         }
       },
       "required": [
         "Identifier",
         "Type"
+      ],
+      "examples": [
+        {
+          "Type": "VatId",
+          "Identifier": "DE123456789"
+        }
       ]
     },
     "Generic.TestExecution": {
@@ -1083,9 +1087,6 @@
             "$ref": "#/$defs/Generic.Certification"
           },
           "type": "array"
-        },
-        "VatId": {
-          "$ref": "#/$defs/Generic.RestrictedString"
         }
       },
       "required": [
