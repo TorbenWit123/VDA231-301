@@ -1159,7 +1159,6 @@
       "minItems": 0
     },
     "Generic.ComponentMaster": {
-      "type": "object",
       "description": "Component master (definition-level data). All ComponentInstance objects under 'Instances' are concrete produced units/batches of this master definition.",
       "properties": {
         "_id": {
@@ -1170,7 +1169,6 @@
           "type": "string"
         },
         "Instances": {
-          "type": "array",
           "items": {
             "$ref": "#/$defs/Generic.ComponentInstance"
           },
@@ -1193,43 +1191,39 @@
           "description": "Additional typed identifiers"
         },
         "Color": {
-          "$ref": "#/$defs/Generic.RestrictedString",
-          "description": "Color name or code if it is an inherent property of the component definition (not a per-batch deviation)."
+          "$ref": "#/$defs/Generic.RestrictedString"
         },
         "MaterialGroup": {
           "$ref": "#/$defs/Generic.RestrictedString",
-          "description": "Material group (VDA 231-106) for the component definition."
+          "description": "Material group (VDA 231-106)"
         },
         "MaterialClass": {
           "$ref": "#/$defs/Generic.RestrictedString",
-          "description": "Material class (VDA 231-200) for the component definition."
+          "description": "Material class (VDA 231-200)"
         },
         "MaterialName": {
           "$ref": "#/$defs/Generic.RestrictedString",
-          "description": "Material name / grade for the component definition."
+          "description": "Material name / grade"
         },
         "MaterialShortName": {
           "$ref": "#/$defs/Generic.LongString",
-          "description": "Short name according to VDA 231-200"
+          "description": "Short name (VDA 231-200)"
         },
         "MaterialIdentifiers": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/Generic.RestrictedString"
           },
-          "uniqueItems": true,
-          "description": "Material identifiers (VDA 231-300) that belong to the component definition (not per produced unit)."
+          "description": "Material identifiers (VDA 231-300)"
         },
         "SurfaceIdentifiers": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/Generic.RestrictedString"
           },
-          "uniqueItems": true,
-          "description": "Surface identifiers (VDA 231-300) that belong to the component definition (not per produced unit)."
+          "description": "Surface identifiers (VDA 231-300)"
         },
         "Specifications": {
-          "type": "array",
           "items": {
             "$ref": "#/$defs/Generic.Specification"
           },
@@ -1262,8 +1256,7 @@
       "required": [
         "_id",
         "_type",
-        "Instances",
-        "ProductName"
+        "Instances"
       ]
     },
     "Generic.ComponentInstance": {
