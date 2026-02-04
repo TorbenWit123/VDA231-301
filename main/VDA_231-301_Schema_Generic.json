@@ -1134,11 +1134,11 @@
     "Generic.GenericIdentifier": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Typed business identifier.",
+      "description": "A typed identifier. 'Type' selects the identifier scheme (e.g., 'VatId', 'ProductId', 'GMID') and 'Identifier' contains the corresponding value for that scheme.",
       "properties": {
         "Type": {
           "$ref": "#/$defs/Generic.RestrictedString",
-          "description": "Identifier namespace, e.g. 'internal product id', 'global material id'."
+          "description": "Identifier namespace, e.g. 'VatId', 'internal product id', 'global material id'."
         },
         "Identifier": {
           "$ref": "#/$defs/Generic.RestrictedString",
@@ -1156,117 +1156,61 @@
       "items": {
         "$ref": "#/$defs/Generic.GenericIdentifier"
       },
-      "minItems": 0,
-      "uniqueItems": true
-    },
-    "Generic.ProductInformation": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "Product information for the component.",
-      "properties": {
-        "ProductName": {
-          "$ref": "#/$defs/Generic.LongString",
-          "description": "Commercial product name or designation."
-        },
-        "CompanyLegalName": {
-          "$ref": "#/$defs/Generic.LongString",
-          "description": "Legal name of the responsible company."
-        },
-        "LocationIdentification": {
-          "description": "Location identifiers (must include DUNS).",
-          "allOf": [
-            {
-              "$ref": "#/$defs/Generic.LocationIdentification"
-            },
-            {
-              "contains": {
-                "type": "object",
-                "properties": {
-                  "Type": {
-                    "enum": [
-                      "DUNS",
-                      "duns"
-                    ]
-                  },
-                  "Identifier": {
-                    "type": "string",
-                    "pattern": "^[0-9]{9}$"
-                  }
-                },
-                "required": [
-                  "Type",
-                  "Identifier"
-                ]
-              },
-              "minContains": 1
-            }
-          ]
-        },
-        "ProductionAddress": {
-          "$ref": "#/$defs/Generic.ContactDetails",
-          "description": "Postal address of the production site."
-        }
-      },
-      "required": [
-        "ProductName",
-        "CompanyLegalName",
-        "LocationIdentification",
-        "ProductionAddress"
-      ]
+      "minItems": 0
     },
     "Generic.ComponentMaster": {
       "type": "object",
-      "additionalProperties": true,
-      "description": "Master data for a component under test.",
+      "description": "Component master (definition-level data). All ComponentInstance objects under 'Instances' are concrete produced units/batches of this master definition.",
       "properties": {
         "_id": {
-          "$ref": "#/$defs/Generic.Identifier",
-          "description": "Unique identifier (UUID) of the component master."
+          "$ref": "#/$defs/Generic.Identifier"
         },
         "_type": {
           "const": "ComponentMaster",
-          "type": "string",
-          "description": "Object type discriminator; must be 'ComponentMaster'."
+          "type": "string"
         },
         "Instances": {
           "type": "array",
-          "minItems": 1,
           "items": {
             "$ref": "#/$defs/Generic.ComponentInstance"
           },
-          "description": "Instances belonging to this component master."
+          "description": "Concrete produced units/batches/samples that belong to this master definition and can be tested individually."
         },
         "CustomerPartNumber": {
           "$ref": "#/$defs/Generic.RestrictedString",
-          "description": "Customer/OEM part number."
+          "description": "Customer (OEM) part number identifying this component definition."
         },
         "SupplierPartNumber": {
           "$ref": "#/$defs/Generic.RestrictedString",
-          "description": "Supplier part number."
+          "description": "Supplier (Tier-N) part number identifying this component definition."
         },
-        "GenericIdentifiers": {
+        "ProductName": {
+          "$ref": "#/$defs/Generic.LongString",
+          "description": "Commercial product name."
+        },
+        "Identifiers": {
           "$ref": "#/$defs/Generic.GenericIdentification",
-          "description": "Additional typed identifiers (0..n)."
-        },
-        "ProductInformation": {
-          "$ref": "#/$defs/Generic.ProductInformation",
-          "description": "Product-level information (name, company, location identification, address)."
+          "description": "Additional typed identifiers"
         },
         "Color": {
           "$ref": "#/$defs/Generic.RestrictedString",
-          "description": "Color name or code, if applicable."
+          "description": "Color name or code if it is an inherent property of the component definition (not a per-batch deviation)."
         },
         "MaterialGroup": {
           "$ref": "#/$defs/Generic.RestrictedString",
-          "description": "Material group (VDA 231-106)."
+          "description": "Material group (VDA 231-106) for the component definition."
         },
         "MaterialClass": {
           "$ref": "#/$defs/Generic.RestrictedString",
-          "description": "Material class (VDA 231-200)."
+          "description": "Material class (VDA 231-200) for the component definition."
         },
         "MaterialName": {
           "$ref": "#/$defs/Generic.RestrictedString",
-          "description": "Material name or grade."
+          "description": "Material name / grade for the component definition."
+        },
+        "MaterialShortName": {
+          "$ref": "#/$defs/Generic.LongString",
+          "description": "Short name according to VDA 231-200"
         },
         "MaterialIdentifiers": {
           "type": "array",
@@ -1274,7 +1218,7 @@
             "$ref": "#/$defs/Generic.RestrictedString"
           },
           "uniqueItems": true,
-          "description": "Material identifiers (VDA 231-300)."
+          "description": "Material identifiers (VDA 231-300) that belong to the component definition (not per produced unit)."
         },
         "SurfaceIdentifiers": {
           "type": "array",
@@ -1282,46 +1226,49 @@
             "$ref": "#/$defs/Generic.RestrictedString"
           },
           "uniqueItems": true,
-          "description": "Surface identifiers (VDA 231-300)."
+          "description": "Surface identifiers (VDA 231-300) that belong to the component definition (not per produced unit)."
         },
         "Specifications": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/Generic.Specification"
           },
-          "description": "Referenced specifications and standards."
+          "description": "Referenced specifications and standards defining requirements for this component."
         },
         "LayerSequence": {
           "$ref": "#/$defs/Generic.InformationSet",
-          "description": "Layer sequence information (e.g. coatings)."
+          "description": "Layer sequence information (e.g., coating stack) that is part of the component definition."
         },
         "Attachments": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/Generic.Attachment"
           },
-          "description": "Related files (e.g. drawings, photos)."
+          "description": "Definition-level related files (e.g., drawings, nominal data sheets, general photos)."
         },
         "DeviationSpecificationText": {
           "$ref": "#/$defs/Generic.RestrictedText",
-          "description": "Allowed deviations from specifications (text)."
+          "description": "Allowed deviations from specifications (text) at definition level (applies to all instances unless instance-specific deviation is documented elsewhere)."
         },
         "DeviationSpecificationCodeFile": {
           "$ref": "#/$defs/Generic.Attachment",
-          "description": "Allowed deviations from specifications (file)."
+          "description": "Allowed deviations from specifications (file) at definition level."
         },
         "Comment": {
           "$ref": "#/$defs/Generic.RestrictedText",
-          "description": "Free-text comment."
+          "description": "Free-text comment about the component definition."
         }
       },
       "required": [
         "_id",
         "_type",
-        "Instances"
+        "Instances",
+        "ProductName"
       ]
     },
     "Generic.ComponentInstance": {
+      "type": "object",
+      "description": "Component instance (as-built / sample-level data). This object describes ONE concrete produced unit.",
       "properties": {
         "_id": {
           "$ref": "#/$defs/Generic.Identifier"
@@ -1331,7 +1278,12 @@
           "type": "string"
         },
         "ProductionSite": {
-          "$ref": "#/$defs/Generic.Location"
+          "$ref": "#/$defs/Generic.Location",
+          "description": "Production site where this specific instance/batch was manufactured."
+        },
+        "ProductIdentifiers": {
+          "$ref": "#/$defs/Generic.GenericIdentification",
+          "description": "Additional typed identifiers (0..n) related to the production-level."
         },
         "Machine": {
           "$ref": "#/$defs/Generic.RestrictedString"
@@ -1355,21 +1307,21 @@
           "$ref": "#/$defs/Generic.Date"
         },
         "Attachments": {
+          "type": "array",
           "items": {
             "$ref": "#/$defs/Generic.Attachment"
           },
-          "type": "array"
+          "description": "Instance-level related files (e.g., photos of the specific part)."
         },
         "Comment": {
           "$ref": "#/$defs/Generic.RestrictedText",
-          "description": "Additional information about the component."
+          "description": "Additional information about this specific instance."
         }
       },
       "required": [
         "_id",
         "_type"
-      ],
-      "type": "object"
+      ]
     },
     "Generic.TestSeries": {
       "additionalProperties": false,
